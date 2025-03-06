@@ -1,7 +1,23 @@
-{
-  "id": 2,
-  "description": "Prueba dos",
-  "amount": 5350.0,
-  "category": "Food",
-  "date": "2025-03-04"
-}
+[
+  {
+    "id": 3,
+    "description": "prueba 3",
+    "amount": 5230.0,
+    "category": "rent",
+    "date": "2025-03-06"
+  },
+  {
+    "id": 6,
+    "description": "prueba 3",
+    "amount": 5230.0,
+    "category": "rent",
+    "date": "2025-03-06"
+  },
+  {
+    "id": 4,
+    "description": "Expense Description",
+    "amount": 10460.0,
+    "category": "Expense Category",
+    "date": "2025-03-06"
+  }
+]
