@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,11 +94,48 @@ public class ExpenseDAO {
         return result;
     }
 
-    public ArrayList<ExpenseVO> selectAll() {
-        return null;
+    public List<ExpenseVO> selectAll() {
+        List<ExpenseVO> expenseVOS = null;
+        try {
+            expenseVOS = processJSON();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return expenseVOS;
     }
 
+    public double summary() {
+        List<ExpenseVO> expenseVOS = null;
+        double sum = 0;
+        try {
+            expenseVOS = processJSON();
+            for (ExpenseVO expenseVO : expenseVOS) {
+                sum = sum + expenseVO.getAmount();
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return sum;
+    }
+
+    public double summaryByMonth(int month) throws FileNotFoundException, ParseException {
+        List<ExpenseVO> expenseVOS = null;
+        double sum = 0;
+        Date date = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        expenseVOS = processJSON();
+        for (ExpenseVO expenseVO : expenseVOS) {
+            date = formatter.parse(expenseVO.getDate());
+            if((date.getMonth()+1) == month) {
+                sum = sum + expenseVO.getAmount();
+            }
+        }
+        return sum;
+    }
+
+
     public ArrayList<ExpenseVO> selectByCategory(String category) {
+
         return null;
     }
 
