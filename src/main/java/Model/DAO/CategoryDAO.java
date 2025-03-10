@@ -1,6 +1,6 @@
 package Model.DAO;
 
-import Model.VO.ExpenseVO;
+import Model.VO.CategoryVO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -13,15 +13,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class CatergoryDAO {
-
+public class CategoryDAO {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     Path path = Paths.get("src/main/java/DataBase/category.json");
 
-    public List<ExpenseVO> listAll() throws FileNotFoundException {
+    public List<CategoryVO> listAll() throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(path)));
-        Type expenseList = new TypeToken<List<ExpenseVO>>() {
+        Type expenseList = new TypeToken<List<CategoryVO>>() {
         }.getType();
         return gson.fromJson(reader, expenseList);
     }

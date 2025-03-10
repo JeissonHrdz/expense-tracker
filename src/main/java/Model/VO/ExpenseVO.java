@@ -7,10 +7,10 @@ public class ExpenseVO {
     int id;
     String description;
     double amount;
-    String category;
+    int category;
     String date;
 
-    public ExpenseVO(int id, String description, double amount, String category, String date) {
+    public ExpenseVO(int id, String description, double amount, int category, String date) {
         this.id = id;
         this.description = description;
         this.amount = amount;
@@ -42,11 +42,11 @@ public class ExpenseVO {
         this.amount = amount;
     }
 
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 

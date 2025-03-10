@@ -12,7 +12,11 @@
     "name": "Entertainment"
   },
   {
-    "id": 3,
+    "id": 4,
     "name": "Rent"
+  },
+  {
+    "id": 5,
+    "name": "other"
   }
 ]

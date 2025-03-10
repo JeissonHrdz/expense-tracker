@@ -3,21 +3,14 @@
     "id": 3,
     "description": "prueba 3",
     "amount": 5230.0,
-    "category": "rent",
+    "category": 1,
     "date": "2025-04-06"
   },
   {
-    "id": 6,
-    "description": "prueba 3",
-    "amount": 5230.0,
-    "category": "rent",
-    "date": "2025-03-06"
-  },
-  {
-    "id": 4,
-    "description": "Pagod de la escuela del chino pendejo ese",
-    "amount": 10460.0,
-    "category": "Food",
-    "date": "2025-03-06"
+    "id": 3,
+    "description": "nueva",
+    "amount": 20.0,
+    "category": 3,
+    "date": "2025-03-10"
   }
 ]
