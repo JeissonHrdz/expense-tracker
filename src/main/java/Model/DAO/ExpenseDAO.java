@@ -84,12 +84,14 @@ public class ExpenseDAO {
         boolean result = false;
         try {
             List<ExpenseVO> expenses = processJSON();
-            expenses.removeIf(expenseVO -> expenseVO.getId() == id);
-            String json = gson.toJson(expenses);
-            Files.write(path, json.getBytes());
-            result = true;
+            if (expenses.removeIf(expenseVO -> expenseVO.getId() == id)){
+                String json = gson.toJson(expenses);
+                Files.write(path, json.getBytes());
+                result = true;
+            }
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Id argument invalid");
         }
         return result;
     }

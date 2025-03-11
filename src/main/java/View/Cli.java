@@ -5,6 +5,9 @@ import Model.DAO.ExpenseDAO;
 import Model.VO.CategoryVO;
 import Model.VO.ExpenseVO;
 
+import java.io.FileNotFoundException;
+import java.sql.SQLOutput;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +48,7 @@ public class Cli {
                         return;
                     }
 
-                    String  expenseDescription;
+                    String expenseDescription;
                     expenseDescription = data[2];
                     if (!expenseDescription.startsWith("\"") || !expenseDescription.endsWith("\"")) {
                         System.out.println("Invalid expense description: must be enclosed in quotes");
@@ -89,8 +92,6 @@ public class Cli {
                         return;
                     }
 
-
-
                 } catch (Exception e) {
                     System.out.println("An unexpected error occurred: " + e.getMessage());
                 }
@@ -98,18 +99,135 @@ public class Cli {
                 break;
             }
             case "list": {
+
+                try {
+
+                    String headerFormat = "%-5s %-12s %-20s %-20s %-10s%n";
+                    String rowFormat = "%-5d %-12s %-20s %-20s %-10.2s%n";
+
+                    if (data.length < 2) {
+
+                        System.out.printf(headerFormat, "ID", "Date", "Description", "Category", "Amount");
+                        System.out.println("--------------------------------------------------");
+
+                        List<CategoryVO> listCategory = cdao.listAll();
+                        List<ExpenseVO> listExpenses = dao.selectAll();
+
+                        for (CategoryVO category : listCategory) {
+                            for (ExpenseVO expense : listExpenses) {
+                                if (expense.getCategory() == category.getId()) {
+                                    System.out.printf(rowFormat,
+                                            expense.getId(),
+                                            expense.getDate(),
+                                            expense.getDescription(),
+                                            category.getName(),
+                                            "$" + expense.getAmount());
+                                }
+                                ;
+                            }
+                        }
+                        return;
+                    }
+
+                    if (!CATEGORY_FLAG.equals(data[1])) {
+                        System.out.println("Invalid command argument");
+                        return;
+                    }
+
+                    List<CategoryVO> listCategory = cdao.listAll();
+                    List<ExpenseVO> listExpenses = dao.selectAll();
+                    int categoryId = Integer.parseInt(data[2]);
+                    Optional<CategoryVO> categoryOptional = listCategory.stream()
+                            .filter(category -> category.getId() == categoryId)
+                            .findFirst();
+
+                    if (categoryOptional.isEmpty()) {
+                        System.out.println("Category not found");
+                        return;
+                    }
+
+                    categoryOptional.ifPresent(category -> {
+                        for (ExpenseVO expense : listExpenses) {
+                            if (category.getId() == expense.getId()) {
+                                System.out.printf(rowFormat,
+                                        expense.getId(),
+                                        expense.getDate(),
+                                        expense.getDescription(),
+                                        category.getName(),
+                                        "$" + expense.getAmount());
+                            }
+                        }
+                        ;
+                    });
+
+
+                } catch (FileNotFoundException e) {
+                    System.out.println("Bd not found");
+                }
                 break;
             }
             case "summary": {
+
+                try {
+                    if (data.length < 2) {
+                        System.out.println("Total expenses: $" + dao.summary());
+                        return;
+                    }
+
+                    if (!data[1].equals(MONTH_FLAG)) {
+                        System.out.println("Invalid command");
+                        return;
+                    }
+
+                    if (Integer.parseInt(data[2]) > 12) {
+                        System.out.println("Month invalid");
+                        return;
+                    }
+                    System.out.println("Total expenses for this month: $" + dao.summaryByMonth(Integer.parseInt(data[2])));
+
+                } catch (NumberFormatException | ParseException e) {
+                    System.out.println("Month number invalid");
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
                 break;
             }
             case "delete": {
+
+                if (!ID_FLAG.equals(data[1])) {
+                    System.out.println("Invalid command: incorrect flags");
+                    return;
+                }
+
+                try {
+                    if (dao.delete(Integer.parseInt(data[2]))) {
+                        System.out.println("Expense deleted successfully");
+                    } else {
+                        System.out.println("Expense not found");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid id entered: must be a valid number");
+                }
+
                 break;
             }
             case "update": {
                 break;
             }
+
+            case "category": {
+                try {
+                    List<CategoryVO> listCategory = cdao.listAll();
+                    listCategory.forEach(category -> {
+                        System.out.println("\u001B[35m  Id:\u001B[0m " + category.getId() + " \u001B[33m ->\u001B[0m " + category.getName());
+                    });
+                } catch (FileNotFoundException _) {
+                }
+                break;
+            }
             default: {
+                System.out.println("\u001B[41m Invalid command: incorrect option\u001B[0m");
                 break;
             }
         }
