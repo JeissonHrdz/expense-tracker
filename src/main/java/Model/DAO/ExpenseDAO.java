@@ -135,6 +135,15 @@ public class ExpenseDAO {
         return sum;
     }
 
+    public int generateId() throws FileNotFoundException {
+        int id = 1;
+        List<ExpenseVO> expenseVOS = processJSON();
+        for (ExpenseVO expenseVO : expenseVOS) {
+                id = expenseVO.getId();
+        }
+    return (id+1);
+    }
+
 
     public ArrayList<ExpenseVO> selectByCategory(String category) {
 

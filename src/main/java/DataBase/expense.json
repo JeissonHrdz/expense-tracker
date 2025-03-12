@@ -1,8 +1,8 @@
 [
   {
-    "id": 3,
+    "id": 1,
     "description": "prueba 3",
-    "amount": 5230.0,
+    "amount": 30.0,
     "category": 1,
     "date": "2025-04-06"
   },
@@ -12,5 +12,33 @@
     "amount": 20.0,
     "category": 3,
     "date": "2025-03-10"
+  },
+  {
+    "id": 3,
+    "description": "prueba4",
+    "amount": 25.0,
+    "category": 5,
+    "date": "2025-03-12"
+  },
+  {
+    "id": 4,
+    "description": "prueba4",
+    "amount": 25.0,
+    "category": 5,
+    "date": "2025-03-12"
+  },
+  {
+    "id": 5,
+    "description": "prueba 4",
+    "amount": 25.0,
+    "category": 5,
+    "date": "2025-03-12"
+  },
+  {
+    "id": 7,
+    "description": "prueba 4",
+    "amount": 25.0,
+    "category": 5,
+    "date": "2025-03-12"
   }
 ]
